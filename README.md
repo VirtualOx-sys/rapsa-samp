@@ -1,6 +1,6 @@
 # RAPSA Dashboard
 
-![RAPSA Logo](./views/assets/img/logo.png)
+![RAPSA Logo](./src/views/assets/img/logo.png)
 
 ## Descripción
 RAPSA Dashboard es un sistema de gestión diseñado para administrar antecedentes y roles dentro de un servidor de Discord. Este proyecto combina tecnologías modernas como **Node.js**, **Express**, **MongoDB** y **Discord.js** para ofrecer una solución completa y eficiente.
