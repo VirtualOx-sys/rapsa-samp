@@ -1,0 +1,206 @@
+<%- include('parts/head', { bot, user, path }) %>
+<div class="container mt-5">
+  <div class="card bg-dark text-white">
+    <div class="card-body">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Oficiales RAPSA</h1>
+        <div class="dropdown">
+          <button id="sortButton" class="btn btn-secondary dropdown-toggle px-4" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fas fa-sort me-2"></i>Ordenar 
+          </button>
+          <div class="dropdown-menu dropdown-menu-dark dropdown-menu-end shadow">
+            <div class="px-3 py-2 text-muted small">Ordenar por</div>
+            <div class="dropdown-divider"></div>
+            <button class="dropdown-item d-flex align-items-center" type="button" onclick="sortList('name')">
+              <i class="fas fa-sort-alpha-down fa-fw me-2"></i>
+              <span>Nombre (A-Z)</span>
+            </button>
+            <button class="dropdown-item d-flex align-items-center" type="button" onclick="sortList('antecedentes')">
+              <i class="fas fa-sort-amount-down fa-fw me-2"></i>
+              <span>Mayor cantidad</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div id="policiasList" class="list-group">
+        <% policias.forEach(policia => { %>
+          <a href="/profile/<%= policia.id %>" class="list-group-item list-group-item-action bg-darker text-white mb-2">
+            <div class="d-flex align-items-center">
+              <img src="<%= policia.avatar ? `https://cdn.discordapp.com/avatars/${policia.id}/${policia.avatar}.png` : '/img/logo.png' %>" 
+                   class="rounded-circle" 
+                   style="width: 48px; height: 48px; object-fit: cover;"
+                   onerror="this.src='/img/logo.png'">
+              <div class="d-flex justify-content-between align-items-center flex-grow-1 ms-3">
+                <div>
+                  <h5 class="mb-0">
+                    <%= policia.displayName %>
+                    <% if (policia.isDirectiva) { %>
+                      <span class="badge bg-primary ms-2" title="Directiva">
+                        <i class="fas fa-star"></i>
+                      </span>
+                    <% } %>
+                  </h5>
+                </div>
+                <span class="badge bg-secondary">
+                  </i><%= policia.totalAntecedentes %> registros
+                </span>
+              </div>
+            </div>
+          </a>
+        <% }) %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.bg-darker {
+  background-color: #222222;
+  transition: all 0.2s ease;
+}
+
+.list-group-item {
+  border: none;
+  margin-bottom: 0.5rem;
+}
+
+.list-group-item:hover {
+  background-color: #2c2c2c !important;
+  transform: translateY(-1px);
+}
+
+.list-group-item img {
+  transition: transform 0.2s;
+  min-width: 48px;
+  margin-right: 1.5rem !important;
+}
+
+.list-group-item:hover img {
+  transform: scale(1.05);
+}
+
+.dropdown-menu {
+  min-width: 200px;
+  padding: 0.5rem 0;
+  margin-top: 0.5rem;
+  border: 1px solid rgba(255,255,255,0.1);
+  background-color: #2c2f33;
+}
+
+.dropdown-divider {
+  border-color: rgba(255,255,255,0.1);
+  margin: 0.3rem 0;
+}
+
+.dropdown-item {
+  color: #fff;
+  padding: 0.6rem 1rem;
+  font-size: 0.95rem;
+  transition: all 0.2s;
+}
+
+.dropdown-item:hover {
+  background-color: #7289da;
+  color: white;
+}
+
+.dropdown-item i {
+  width: 16px;
+  text-align: center;
+}
+
+.btn-secondary {
+  background-color: #2c2f33;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.btn-secondary:hover {
+  background-color: #23272a;
+  border-color: rgba(255,255,255,0.2);
+}
+
+@media (max-width: 576px) {
+  .list-group-item {
+    padding: 0.75rem;
+  }
+  
+  .list-group-item img {
+    width: 40px;
+    height: 40px;
+    margin-right: 1rem !important;
+  }
+  
+  h5 {
+    font-size: 1rem;
+  }
+  
+  .badge {
+    font-size: 0.7rem;
+  }
+}
+</style>
+
+<script>
+// Obtener datos iniciales de forma segura
+let currentData = <%- JSON.stringify(policias) %>;
+
+function sortList(criteria) {
+    if (!Array.isArray(currentData)) return;
+
+    switch(criteria) {
+        case 'name':
+            currentData.sort((a, b) => a.displayName.localeCompare(b.displayName, 'es'));
+            updateUI('Por Nombre (A-Z)');
+            break;
+        case 'antecedentes':
+            currentData.sort((a, b) => b.totalAntecedentes - a.totalAntecedentes);
+            updateUI('Por Antecedentes');
+            break;
+    }
+}
+
+function updateUI(sortText) {
+    // Actualizar texto del botón de ordenamiento (usando ID específico)
+    document.getElementById('sortButton').innerHTML = `
+        <i class="fas fa-sort me-2"></i>${sortText}
+    `;
+    
+    // Actualizar lista
+    const listContainer = document.getElementById('policiasList');
+    listContainer.innerHTML = currentData.map(policia => `
+        <a href="/profile/${policia.id}" class="list-group-item list-group-item-action bg-darker text-white mb-2">
+            <div class="d-flex align-items-center">
+                <img src="${policia.avatar ? `https://cdn.discordapp.com/avatars/${policia.id}/${policia.avatar}.png` : '/img/logo.png'}"
+                     class="rounded-circle me-4" 
+                     style="width: 48px; height: 48px; object-fit: cover;"
+                     onerror="this.src='/img/logo.png'">
+                <div class="flex-grow-1 ps-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0 ms-2">
+                            ${policia.displayName}
+                            ${policia.isDirectiva ? `
+                                <span class="badge bg-primary ms-2" title="Directiva">
+                                    <i class="fas fa-star"></i>
+                                </span>
+                            ` : ''}
+                        </h5>
+                        <span class="badge bg-secondary">
+                            </i>${policia.totalAntecedentes} registros
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </a>
+    `).join('');
+}
+
+// Restaurar último ordenamiento al cargar
+document.addEventListener('DOMContentLoaded', () => {
+    const lastSort = localStorage.getItem('lastSort');
+    if (lastSort) {
+        sortList(lastSort);
+    }
+});
+</script>
+<%- include('parts/foot') %>

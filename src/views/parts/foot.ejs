@@ -1,0 +1,150 @@
+<br><br><br>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description"content="Sistema para la gestión de antecedentes S.A.P.D - Servidor Nombre acá">
+  <title>R.A.P.S.A</title>
+  <link rel="canonical" href="https://bv.botlist.es/">
+  <meta name="publisher" content="2025, VirtualOx" />
+  <meta property="title" content="R.A.P.S.A">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="author" content="VirtualOx">
+  <meta name="generator" content="VirtualOx-sys">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:site" content="">
+  <meta name="twitter:creator" content="virt_ox">
+  <meta name="twitter:title" content="R.A.P.S.A">
+  <meta name="twitter:description"
+    content="Sistema para la gestión de antecedentes S.A.P.D - Servidor Nombre acá">
+  <meta name="twitter:image" content="../img/logo.png">
+  <meta property="og:url" content="/">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:title" content="R.A.P.S.A">
+  <meta name="theme-color" content="#7289da">
+  <meta property="og:description"
+    content="Sistema para la gestión de antecedentes S.A.P.D - Servidor Nombre acá">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="../img/logo.png">
+</head>
+
+<!-- FOOTER -->
+
+<style>
+  .footers li a,
+  .footer-link {
+    color: rgb(156, 156, 156);
+  }
+
+  .footers li a:hover,
+  .footer-link:hover {
+    color: #7289da;
+  }
+</style>
+
+<footer class="footer mt-5 py-3 bg-dark">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4">
+        <h5 class="text-white">Enlaces del Sistema</h5>
+        <ul class="list-unstyled">
+          <li><a href="/antecedentes/registrar" class="text-white"><i class="fas fa-file-alt"></i> Registrar Antecedente</a></li>
+          <li><a href="/antecedentes/listar" class="text-white"><i class="fas fa-list"></i> Listar Antecedentes</a></li>
+          <li><a href="/antecedentes/buscar" class="text-white"><i class="fas fa-search"></i> Buscar Antecedentes</a></li>
+        </ul>
+      </div>
+      <div class="col-md-4">
+        <h5 class="text-white">Enlaces Nombre acá</h5>
+        <ul class="list-unstyled">
+          <li><a href="https://rol.az-rp.com" target="_blank" class="text-white"><i class="fas fa-globe"></i> Sitio Web</a></li>
+          <li><a href="https://rol.az-rp.com/foro" target="_blank" class="text-white"><i class="fas fa-comments"></i> Foro</a></li>
+          <li><a href="#" target="_blank" class="text-white"><i class="fab fa-discord"></i> Discord</a></li>
+        </ul>
+      </div>
+      <div class="col-md-4">
+        <div class="text-center">
+          <img src="/img/logo.png" alt="RAPSA Logo" style="width:100px;">
+          <p class="text-white mt-3">Sistema de Antecedentes Penales SAPD</p>
+          <p class="text-muted small">Nombre acá</p>
+        </div>
+      </div>
+    </div>
+    <hr class="bg-secondary">
+    <div class="row">
+      <div class="col-12 text-center">
+        <p class="text-white mb-0">© <%= new Date().getFullYear() %> RAPSA - Sistema de Antecedentes Penales SAPD</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="./js/socket.js"></script>
+<!-- FOOTEr -->
+
+<script>
+  console.log("%cESPERE !!!", "color: red; font-size: 60px");
+  console.log("%cSi no sabe lo que está haciendo, ¡cierre este lugar ahora!", "color: green; font-size: 20px");
+</script>
+<!-- SCRIPTS -->
+<style>
+  .tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+  }
+
+  .tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -60px;
+  }
+
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+  }
+</style>
+</style>
+<script src="https://unpkg.com/@popperjs/core@2"></script>
+<script src="https://unpkg.com/tippy.js@6"></script>
+<script>
+  tippy('.tippy', { arrow: true, animation: 'scale', });
+</script>
+
+<!-- Scripts necesarios -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  // Inicialización de DataTables 
+  $(document).ready(function () {
+    if ($('#tableData').length) {
+      $('#tableData').DataTable({
+        language: {
+          search: '<i class="fas fa-search"></i>',
+          searchPlaceholder: 'Buscar registros...',
+          info: "Mostrando página _PAGE_ de _PAGES_",
+          lengthMenu: "Mostrar _MENU_ registros",
+          paginate: {
+            first: '<i class="fas fa-angle-double-left"></i>',
+            previous: '<i class="fas fa-angle-left"></i>',
+            next: '<i class="fas fa-angle-right"></i>',
+            last: '<i class="fas fa-angle-double-right"></i>'
+          }
+        }
+      });
+    }
+  });
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="//cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+</div>

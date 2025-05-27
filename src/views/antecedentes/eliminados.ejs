@@ -1,0 +1,75 @@
+<%- include('../parts/head', { bot, user, path }) %>
+<div class="container mt-5">
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4">
+    <h1 class="text-white mb-3 mb-md-0">Antecedentes Eliminados</h1>
+    <a href="/antecedentes/listar" class="btn btn-primary">
+      <i class="fas fa-list"></i> <span class="d-none d-sm-inline">Ver Activos</span>
+    </a>
+  </div>
+
+  <% if (eliminados.length > 0) { %>
+    <div class="table-responsive">
+      <table class="table table-dark">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>COD</th>
+            <th class="d-none d-md-table-cell">Fecha Registro</th>
+            <th>Descripción</th>
+            <th class="d-none d-lg-table-cell">Policía Original</th>
+            <th>Eliminado Por</th>
+            <th class="d-none d-md-table-cell">Fecha Eliminación</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% eliminados.forEach(antecedente => { %>
+            <tr>
+              <td class="text-white"><%= antecedente.nombre %></td>
+              <td class="text-white"><%= antecedente.cod %></td>
+              <td class="text-white d-none d-md-table-cell"><%= antecedente.fecha.toLocaleString("es-AR") %></td>
+              <td class="text-white text-break"><%= antecedente.descripcion %></td>
+              <td class="text-white d-none d-lg-table-cell"><%= antecedente.policia %></td>
+              <td class="text-white"><%= antecedente.eliminadoPor %></td>
+              <td class="text-white d-none d-md-table-cell"><%= antecedente.fechaEliminacion.toLocaleString("es-AR") %></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  <% } else { %>
+    <div class="alert alert-info">
+      <i class="fas fa-info-circle"></i> No hay antecedentes eliminados.
+    </div>
+  <% } %>
+</div>
+
+<style>
+@media (max-width: 768px) {
+  .table {
+    font-size: 14px;
+  }
+  
+  .table td {
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  
+  .table td.text-break {
+    white-space: normal;
+    min-width: 200px;
+  }
+}
+
+@media (max-width: 576px) {
+  h1 {
+    font-size: 1.75rem;
+  }
+  
+  .table td.text-break {
+    min-width: 150px;
+  }
+}
+</style>
+<%- include('../parts/foot') %>

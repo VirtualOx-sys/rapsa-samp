@@ -1,0 +1,83 @@
+<%- include('../parts/head', { bot, user, path }) %>
+<div class="container mt-5">
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4">
+    <div>
+      <h1 class="text-white mb-3 mb-md-0">Lista de Antecedentes Penales</h1>
+      <p class="text-muted">Has registrado <%= totalAntecedentes %> antecedentes en total</p>
+    </div>
+    <% if(isDirectiva) { %>
+      <a href="/antecedentes/eliminados" class="btn btn-secondary">
+        <i class="fas fa-trash-alt"></i> <span class="d-none d-sm-inline">Ver Eliminados</span>
+      </a>
+    <% } %>
+  </div>
+  <% if (antecedentes.length > 0) { %>
+    <div class="table-responsive">
+      <table class="table table-dark">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>COD</th>
+            <th>Fecha</th>
+            <th>Descripción</th>
+            <th>Policía</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% antecedentes.forEach(antecedente => { %>
+            <tr>
+              <td class="text-white"><%= antecedente.nombre %></td>
+              <td class="text-white"><%= antecedente.cod %></td>
+              <td class="text-white"><%= antecedente.fecha.toLocaleString("es-AR") %></td>
+              <td class="text-white"><%= antecedente.descripcion %></td>
+              <td class="text-white"><%= antecedente.policia %></td>
+              <td>
+                <% if(isDirectiva) { %>
+                  <button onclick="confirmarEliminacion('<%= antecedente._id %>')" 
+                     class="btn btn-danger btn-sm">
+                     <i class="fas fa-trash"></i> Eliminar
+                  </button>
+                <% } %>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  <% } else { %>
+    <p class="text-white">No hay antecedentes registrados.</p>
+  <% } %>
+</div>
+
+<script>
+function confirmarEliminacion(id) {
+    Swal.fire({
+        title: '¿Está seguro?',
+        text: "Esta acción no se puede deshacer",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar',
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.href = `/antecedentes/eliminar/${id}`;
+        }
+    });
+}
+
+// Verificar si hay mensajes de éxito o error en la URL
+var urlParams = new URLSearchParams(window.location.search);
+if (urlParams.has('success')) {
+    Swal.fire({
+        icon: 'success',
+        title: 'Éxito',
+        text: urlParams.get('message'),
+        timer: 3000,
+        timerProgressBar: true
+    });
+}
+</script>
+<%- include('../parts/foot') %>

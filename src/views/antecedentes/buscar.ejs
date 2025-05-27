@@ -1,0 +1,111 @@
+<%- include('../parts/head', { bot, user, path }) %>
+<div class="container mt-5">
+  <div class="card bg-dark text-white">
+    <div class="card-body">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Buscar Antecedentes</h1>
+        <button class="btn btn-secondary" onclick="limpiarBusqueda()">
+          <i class="fas fa-sync"></i> Refrescar
+        </button>
+      </div>
+      
+      <div class="row mb-3">
+        <div class="col-md-4">
+          <input type="text" id="codSearch" class="form-control bg-dark text-white" 
+                 placeholder="Buscar por COD" oninput="buscarAntecedentes()">
+        </div>
+        <div class="col-md-4">
+          <input type="text" id="nombreSearch" class="form-control bg-dark text-white" 
+                 placeholder="Buscar por nombre" oninput="buscarAntecedentes()">
+        </div>
+        <div class="col-md-4">
+          <input type="text" id="policiaSearch" class="form-control bg-dark text-white" 
+                 placeholder="Buscar por policía" oninput="buscarAntecedentes()">
+        </div>
+      </div>
+
+      <div id="resultados">
+        <!-- Los resultados se mostrarán aquí -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+let timeoutId = null;
+
+function buscarAntecedentes() {
+  // Cancelar la búsqueda anterior si existe
+  if (timeoutId) {
+    clearTimeout(timeoutId);
+  }
+
+  // Esperar 300ms después de que el usuario deje de escribir
+  timeoutId = setTimeout(() => {
+    const cod = document.getElementById('codSearch').value;
+    const nombre = document.getElementById('nombreSearch').value;
+    const policia = document.getElementById('policiaSearch').value;
+
+    // Solo realizar la búsqueda si hay al menos un carácter en algún campo
+    if (cod.length > 0 || nombre.length > 0 || policia.length > 0) {
+      fetch(`/api/antecedentes/buscar?cod=${cod}&nombre=${nombre}&policia=${policia}`)
+        .then(response => response.json())
+        .then(data => {
+          mostrarResultados(data);
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          document.getElementById('resultados').innerHTML = 
+            '<div class="alert alert-danger">Error al buscar antecedentes</div>';
+        });
+    } else {
+      document.getElementById('resultados').innerHTML = '';
+    }
+  }, 300);
+}
+
+function mostrarResultados(data) {
+  const resultadosDiv = document.getElementById('resultados');
+  if (data.length === 0) {
+    resultadosDiv.innerHTML = '<p class="text-center mt-4">No se encontraron resultados</p>';
+    return;
+  }
+
+  let html = `
+    <table class="table table-dark mt-4">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>COD</th>
+          <th>Fecha</th>
+          <th>Descripción</th>
+          <th>Policía</th>
+        </tr>
+      </thead>
+      <tbody>
+  `;
+
+  data.forEach(antecedente => {
+    html += `
+      <tr>
+        <td>${antecedente.nombre}</td>
+        <td>${antecedente.cod}</td>
+        <td>${new Date(antecedente.fecha).toLocaleString("es-AR")}</td>
+        <td>${antecedente.descripcion}</td>
+        <td>${antecedente.policia}</td>
+      </tr>
+    `;
+  });
+
+  html += '</tbody></table>';
+  resultadosDiv.innerHTML = html;
+}
+
+function limpiarBusqueda() {
+  document.getElementById('codSearch').value = '';
+  document.getElementById('nombreSearch').value = '';
+  document.getElementById('policiaSearch').value = '';
+  document.getElementById('resultados').innerHTML = '';
+}
+</script>
+<%- include('../parts/foot') %>

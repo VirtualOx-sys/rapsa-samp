@@ -1,0 +1,117 @@
+<%- include('../parts/head', { bot, user, path }) %>
+<div class="container mt-4 mt-lg-5">
+  <div class="card bg-dark text-white">
+    <div class="card-header">
+      <h3 class="mb-0 h4"><i class="fas fa-file-alt"></i> Registrar Antecedente</h3>
+      <p class="text-muted small mb-0">Complete todos los campos</p>
+    </div>
+    <div class="card-body">
+      <form method="POST" action="/antecedentes/registrar" id="registroForm">
+        <div class="row g-3">
+          <div class="col-12 col-md-6">
+            <div class="form-group">
+              <label for="nombre"><i class="fas fa-user"></i> Nombre del Infractor:</label>
+              <input type="text" 
+                     class="form-control bg-dark text-white" 
+                     id="nombre" 
+                     name="nombre" 
+                     placeholder="Nombre completo"
+                     required>
+            </div>
+          </div>
+          <div class="col-md-6 mb-3">
+            <div class="form-group">
+              <label for="cod"><i class="fas fa-hashtag"></i> COD de Usuario:</label>
+              <input type="text" 
+                     class="form-control bg-dark text-white" 
+                     id="cod" 
+                     name="cod" 
+                     pattern="[A-Za-z0-9-]+"
+                     maxlength="10"
+                     onkeypress="return validateCodInput(event)"
+                     placeholder="Ej: A001"
+                     required>
+              <small class="form-text text-muted">Solo letras y números permitidos</small>
+            </div>
+          </div>
+        </div>
+        <div class="form-group mb-4">
+          <label for="descripcion"><i class="fas fa-align-left"></i> Descripción del Antecedente:</label>
+          <textarea class="form-control bg-dark text-white" 
+                    id="descripcion" 
+                    name="descripcion" 
+                    rows="4" 
+                    placeholder="Describa detalladamente el antecedente..."
+                    required></textarea>
+        </div>
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mt-4">
+          <button type="submit" class="btn btn-primary w-100 w-md-auto mb-3 mb-md-0">
+            <i class="fas fa-save"></i> <span class="d-none d-sm-inline">Registrar</span>
+          </button>
+          <a href="/antecedentes/listar" class="btn btn-secondary w-100 w-md-auto">
+            <i class="fas fa-list"></i> <span class="d-none d-sm-inline">Ver Lista</span>
+          </a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+function validateCodInput(event) {
+    const pattern = /[A-Za-z0-9-]/;
+    const inputChar = String.fromCharCode(event.charCode);
+    
+    if (!pattern.test(inputChar)) {
+        event.preventDefault();
+        return false;
+    }
+    return true;
+}
+
+// Validación adicional al enviar el formulario
+document.querySelector('form').addEventListener('submit', function(e) {
+    const codInput = document.getElementById('cod');
+    const codValue = codInput.value;
+    const validPattern = /^[A-Za-z0-9-]+$/;
+    
+    if (!validPattern.test(codValue)) {
+        e.preventDefault();
+        alert('El código solo puede contener letras, números y guiones');
+        codInput.focus();
+    }
+});
+
+// Verificar si hay mensajes de éxito o error en la URL
+var urlParams = new URLSearchParams(window.location.search);
+if (urlParams.has('success')) {
+    Swal.fire({
+        icon: 'success',
+        title: 'Éxito',
+        text: urlParams.get('message'),
+        timer: 3000,
+        timerProgressBar: true
+    });
+}
+
+// Interceptar el envío del formulario
+document.getElementById('registroForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    Swal.fire({
+        title: '¿Confirmar registro?',
+        text: "¿Está seguro de registrar este antecedente?",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, registrar',
+        cancelButtonText: 'Cancelar',
+        confirmButtonColor: '#28a745',
+        cancelButtonColor: '#d33',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            this.submit();
+        }
+    });
+});
+</script>
+<%- include('../parts/foot') %>
