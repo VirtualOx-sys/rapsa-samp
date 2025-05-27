@@ -75,4 +75,4 @@ Este proyecto está bajo la licencia MIT. Consulta el archivo [LICENSE](./LICENS
 
 ---
 
-¡Gracias por usar RAPSA Dashboard! Este proyecto fue desarrollado con esfuerzo y dedicación. Sin embargo, se ha detectado que el código ha sido tomado sin autorización y utilizado para fines propios. Se solicita respetar los derechos de autor y las condiciones de la licencia MIT.
+¡Gracias por usar RAPSA Dashboard! Este proyecto fue desarrollado con esfuerzo y dedicación. 
