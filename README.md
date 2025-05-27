@@ -45,7 +45,7 @@ RAPSA Dashboard/
 ## Instalación
 1. Clona este repositorio:
    ```bash
-   git clone https://github.com/virtualox-sys/rapsa-dashboard.git
+   git clone https://github.com/VirtualOx-sys/rapsa-samp.git
    ```
 2. Instala las dependencias:
    ```bash
